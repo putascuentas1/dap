@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+
 <style>
   :root{
     --bg-0: #0a0f14;
@@ -19,7 +20,6 @@
     --accent: #00e5ff;      /* neon cyan */
     --accent-2: #2aff80;    /* neon green */
     --danger: #ff487a;
-    --warn: #ffb84d;
     --success: #2aff80;
     --shadow: 0 10px 30px rgba(0,0,0,0.4);
     --radius: 14px;
@@ -104,7 +104,7 @@
 
   /* Main content */
   main{
-    padding: 28px 20px 140px;  /* bottom padding to accommodate bottom region */
+    padding: 28px 20px 140px;
     max-width: 1100px; margin: 0 auto;
   }
 
@@ -176,11 +176,12 @@
   tbody tr:nth-child(even){ background: rgba(255,255,255,0.02); }
   tbody tr:hover{ background: rgba(0,229,255,0.06); }
 
-  .rank{
-    font-weight: 700; color: #dffaff;
-  }
   .player{
     max-width: 340px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .address{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    letter-spacing: 0.2px;
   }
   .pill{
     display:inline-flex; align-items:center; gap:8px; padding: 6px 10px;
@@ -189,11 +190,10 @@
     background: rgba(255,255,255,0.04);
   }
   .pill.yes{
-    color: #032; background: rgba(42,255,128,0.18); border-color: rgba(42,255,128,0.38);
-    color: #d9ffea;
+    background: rgba(42,255,128,0.18); border-color: rgba(42,255,128,0.38); color: #d9ffea;
   }
   .pill.no{
-    color: #ffdfe9; background: rgba(255,95,120,0.16); border-color: rgba(255,95,120,0.36);
+    background: rgba(255,95,120,0.16); border-color: rgba(255,95,120,0.36); color: #ffdfe9;
   }
   .icon{
     width: 16px; height: 16px; display:inline-block; vertical-align: middle;
@@ -203,29 +203,24 @@
   .score{
     font-variant-numeric: tabular-nums; font-weight: 700;
   }
-  .ts{
-    color: var(--muted); font-size: 0.9rem;
-    white-space: nowrap;
-  }
 
   /* Empty and error states */
   .state{
     padding: 26px; text-align: center; color: var(--muted);
   }
 
-  /* Skeleton shimmer */
-  .skeleton-row{
-    display: grid; grid-template-columns: 70px 1fr 160px 140px 170px 160px;
-    gap: 0;
-    padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
+  /* Skeleton shimmer for 5 columns */
   .skeleton{
     height: 14px; border-radius: 8px;
     background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.14), rgba(255,255,255,0.06));
     background-size: 200% 100%;
     animation: shimmer 1.4s ease-in-out infinite;
   }
-  .sk1{ width:40px } .sk2{ width: 60% } .sk3{ width: 80px } .sk4{ width: 100px } .sk5{ width: 120px } .sk6{ width: 120px }
+  .sk1{ width: 60%; }      /* name */
+  .sk2{ width: 180px; }    /* address */
+  .sk3{ width: 80px; }     /* score */
+  .sk4{ width: 120px; }    /* beat */
+  .sk5{ width: 120px; }    /* follower */
   @keyframes shimmer {
     0%{ background-position: 200% 0 }
     100%{ background-position: -200% 0 }
@@ -353,7 +348,6 @@
       content: attr(data-label);
       color: var(--muted); font-weight: 600; letter-spacing: 0.3px;
     }
-    .skeleton-row{ grid-template-columns: 1fr; gap: 10px; }
     .player { max-width: none; }
     .bottom-wrap{
       grid-template-columns: 1fr; gap: 10px;
@@ -363,7 +357,6 @@
     }
   }
 
-  /* Focus visible for inputs */
   .input:focus-visible{ outline: none; box-shadow: var(--focus); }
 </style>
 </head>
@@ -399,15 +392,16 @@
 
       <div class="table-wrap" id="tableWrap">
         <table aria-describedby="leaderboard-desc">
-          <caption id="leaderboard-desc" style="position:absolute;left:-9999px;opacity:0;">Sorted by Beat the Game (Yes first), then by Score descending.</caption>
+          <caption id="leaderboard-desc" style="position:absolute;left:-9999px;opacity:0;">
+            Sorted by Beat the Game (Yes first), then by Best Score (descending), then by Follower (Yes first).
+          </caption>
           <thead>
             <tr>
-              <th scope="col">Rank</th>
-              <th scope="col">Player</th>
+              <th scope="col">Name</th>
+              <th scope="col">Sol Address</th>
+              <th scope="col">Best Score</th>
               <th scope="col">Beat the Game</th>
-              <th scope="col">Score</th>
               <th scope="col">Acquired Follower</th>
-              <th scope="col">Last Updated</th>
             </tr>
           </thead>
           <tbody id="tbody">
@@ -493,7 +487,7 @@
           </div>
           <div class="faq-item">
             <h4>How does the leaderboard work?</h4>
-            <p>Entries are sorted with players who beat the game shown first, then by highest score. Updates appear in near real-time.</p>
+            <p>Entries are sorted with players who beat the game shown first, then by highest score, then by whether a follower was acquired.</p>
           </div>
           <div class="faq-item">
             <h4>What does “Acquired Follower” mean?</h4>
@@ -529,22 +523,22 @@
   </div>
   <div id="srAnnounce" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" aria-live="polite"></div>
 
+  <!-- Supabase JS from cdnjs (global `supabase`) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/supabase-js/2.45.3/supabase.min.js"></script>
+
 <script type="module">
   // TODO: Insert your real configuration values below before deploying.
-  const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';         // TODO
-  const SUPABASE_ANON_KEY = 'YOUR-ANON-KEY';                       // TODO
-  const TABLE_NAME = 'leaderboard';                                // TODO if different
-  const CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000'; // TODO
-  const DEXSCREENER_URL = 'https://dexscreener.com/your-chain/your-pair'; // TODO
-  const TWITTER_URL = 'https://twitter.com/your-handle';           // TODO
-  const DISCORD_URL = 'https://discord.gg/your-invite';            // TODO
-  const TELEGRAM_URL = 'https://t.me/your-channel';                // TODO
+  const SUPABASE_URL = 'https://poxiozhybwvscgklmuhm.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBveGlvemh5Ynd2c2Nna2xtdWhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc4NzM0NjQsImV4cCI6MjA3MzQ0OTQ2NH0.q2uAUAeaHzW3vYgoHlvJA_lAHYp5GK2AiLmIk9nFnvE';
+  const TABLE_NAME = 'users_public';
+  const CONTRACT_ADDRESS = 'PLACEHOLDER';
+  const DEXSCREENER_URL = 'https://dexscreener.com/PLACEHOLDER';
+  const TWITTER_URL = 'https://twitter.com/PLACEHOLDER';
+  const DISCORD_URL = 'https://discord.gg/PLACEHOLDER';
+  const TELEGRAM_URL = 'https://t.me/PLACEHOLDER';
 
-  // Import Supabase client (ESM)
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-  // Initialize client
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // Initialize Supabase client (global from cdnjs)
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   // DOM references
   const tbody = document.getElementById('tbody');
@@ -591,19 +585,18 @@
   const iconCheck = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>';
   const iconCross = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18" /><path d="M6 6l12 12" /></svg>';
 
-  // Skeleton renderer
+  // Skeleton renderer for 5 columns
   function renderSkeleton(count = 6){
     stateEl.style.display = 'none';
     tbody.innerHTML = '';
     for(let i=0;i<count;i++){
       const row = document.createElement('tr');
       row.innerHTML = `
-        <td data-label="Rank"><div class="skeleton sk1"></div></td>
-        <td data-label="Player"><div class="skeleton sk2"></div></td>
-        <td data-label="Beat the Game"><div class="skeleton sk3"></div></td>
-        <td data-label="Score"><div class="skeleton sk4"></div></td>
+        <td data-label="Name"><div class="skeleton sk1"></div></td>
+        <td data-label="Sol Address"><div class="skeleton sk2"></div></td>
+        <td data-label="Best Score"><div class="skeleton sk3"></div></td>
+        <td data-label="Beat the Game"><div class="skeleton sk4"></div></td>
         <td data-label="Acquired Follower"><div class="skeleton sk5"></div></td>
-        <td data-label="Last Updated"><div class="skeleton sk6"></div></td>
       `;
       tbody.appendChild(row);
     }
@@ -611,17 +604,17 @@
 
   // Format helpers
   const formatNumber = (n)=> typeof n === 'number' ? n.toLocaleString(undefined, { maximumFractionDigits: 0 }) : '-';
-  function formatDate(ts){
-    if(!ts) return '-';
-    try {
-      const d = new Date(ts);
-      if (isNaN(d.getTime())) return '-';
-      // ISO-like short format
-      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-    } catch { return '-'; }
+  function escapeHtml(s){
+    return String(s ?? '').replace(/[&<>"']/g, (m)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m]));
+  }
+  function truncateAddress(addr){
+    if(!addr) return '—';
+    const s = String(addr);
+    if(s.length <= 12) return s;
+    return `${s.slice(0,6)}...${s.slice(-6)}`;
   }
 
-  // Render rows
+  // Render rows (Name, Sol Address, Best Score, Beat the Game, Acquired Follower)
   function renderRows(rows){
     tbody.innerHTML = '';
     if(!rows || rows.length === 0){
@@ -630,28 +623,25 @@
       return;
     }
     stateEl.style.display = 'none';
-    let rank = 1;
     for(const item of rows){
       const tr = document.createElement('tr');
 
-      const playerName = (item.player_name ?? '').toString();
-      const titleName = playerName || 'Unknown Player';
+      const name = (item.name ?? '').toString();
+      const titleName = name || 'Unknown Player';
+      const fullAddr = item.sol_address ? String(item.sol_address) : '';
+      const addrDisplay = truncateAddress(fullAddr);
+      const score = typeof item.best_score === 'number' ? item.best_score : null;
+      const beat = !!item.has_beaten_game;
+      const follower = !!item.has_follower;
 
-      const beat = !!item.beat_the_game;
-      const follower = !!item.acquired_follower;
-      const score = typeof item.score === 'number' ? item.score : null;
-      const updated = item.updated_at || item.created_at || null;
-
-      // Build cells
       const cells = [
-        { label: 'Rank', html: `<span class="rank">#${rank}</span>` },
-        { label: 'Player', html: `<span class="player" title="${escapeHtml(titleName)}">${escapeHtml(titleName || '—')}</span>` },
+        { label: 'Name', html: `<span class="player" title="${escapeHtml(titleName)}">${escapeHtml(titleName || '—')}</span>` },
+        { label: 'Sol Address', html: `<span class="address" title="${escapeHtml(fullAddr || '—')}">${escapeHtml(addrDisplay)}</span>` },
+        { label: 'Best Score', html: `<span class="score" title="${score !== null ? formatNumber(score) : '-'}">${score !== null ? formatNumber(score) : '-'}</span>` },
         { label: 'Beat the Game', html: `<span class="pill ${beat ? 'yes' : 'no'}" title="${beat ? 'Beat the game' : 'Did not beat the game'}">${beat ? iconCheck+' Yes' : iconCross+' No'}</span>` },
-        { label: 'Score', html: `<span class="score" title="${score !== null ? formatNumber(score) : '-'}">${score !== null ? formatNumber(score) : '-'}</span>` },
         { label: 'Acquired Follower', html: follower
             ? `<span title="Follower acquired" aria-label="Follower acquired" style="color:var(--success)">${iconCheck}</span>`
             : `<span title="No follower" aria-label="No follower" style="color:var(--danger)">${iconCross}</span>` },
-        { label: 'Last Updated', html: `<span class="ts">${formatDate(updated)}</span>` },
       ];
 
       for(const c of cells){
@@ -662,13 +652,7 @@
       }
 
       tbody.appendChild(tr);
-      rank++;
     }
-  }
-
-  // HTML escaper for tooltips
-  function escapeHtml(s){
-    return s.replace(/[&<>"']/g, (m)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m]));
   }
 
   // Fetch + state
@@ -679,11 +663,12 @@
     isFetching = true;
     if(showSkeleton) renderSkeleton(6);
     try{
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from(TABLE_NAME)
-        .select('player_name, beat_the_game, score, acquired_follower, updated_at, created_at')
-        .order('beat_the_game', { ascending: false })
-        .order('score', { ascending: false });
+        .select('user_id, name, sol_address, best_score, has_beaten_game, has_follower, updated_at')
+        .order('has_beaten_game', { ascending: false })
+        .order('best_score', { ascending: false })
+        .order('has_follower', { ascending: false });
 
       if(error){
         showError(error.message || 'Failed to load leaderboard.');
@@ -738,14 +723,14 @@
   // Realtime subscription (INSERT & UPDATE)
   function setupRealtime(){
     try{
-      const channel = supabase.channel('leaderboard_updates');
+      const channel = supabaseClient.channel('users_public_updates');
       channel.on('postgres_changes',
         { event: 'INSERT', schema: 'public', table: TABLE_NAME },
         scheduleAutoRefresh
       ).on('postgres_changes',
         { event: 'UPDATE', schema: 'public', table: TABLE_NAME },
         scheduleAutoRefresh
-      ).subscribe((status)=>{/* noop */});
+      ).subscribe();
     }catch(e){
       // non-critical
     }
@@ -769,12 +754,10 @@
     lastFocusedBeforeModal = document.activeElement;
     faqOverlay.classList.add('open');
     faqOverlay.setAttribute('aria-hidden','false');
-    // Focus first focusable in modal
     trapFocus(faqOverlay);
     const first = getFocusable(faqOverlay)[0];
     first?.focus();
     document.addEventListener('keydown', handleModalKeydown);
-    // close on overlay click (outside)
     faqOverlay.addEventListener('mousedown', onOverlayClick);
   }
 
@@ -783,7 +766,6 @@
     faqOverlay.setAttribute('aria-hidden','true');
     document.removeEventListener('keydown', handleModalKeydown);
     faqOverlay.removeEventListener('mousedown', onOverlayClick);
-    // restore focus
     lastFocusedBeforeModal?.focus();
   }
 
@@ -807,7 +789,6 @@
 
   function trapFocus(root){
     const f = getFocusable(root);
-    // ensure focus ring
     root.setAttribute('tabindex','-1');
     return f;
   }
@@ -836,7 +817,6 @@
   if(!SUPABASE_URL || SUPABASE_URL.includes('YOUR-PROJECT')){
     showToast('TODO: Configure Supabase');
   }
-
 </script>
 </body>
 </html>
