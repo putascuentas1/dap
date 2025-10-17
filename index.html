@@ -18,8 +18,6 @@
     --muted: #9fb3c8;
     --accent: #00e5ff;
     --accent-2: #2aff80;
-    --danger: #ff487a;
-    --success: #2aff80;
     --shadow: 0 10px 30px rgba(0,0,0,0.4);
     --radius: 14px;
     --radius-sm: 10px;
@@ -60,34 +58,43 @@
   }
   @keyframes gridFloat { from { transform: translateY(0) } to { transform: translateY(-10px) } }
 
-  /* Top banner */
-  .topbar {
+  /* Top banner: centered title + subtitle, crests on both sides */
+  .topbar{
     position: sticky; top: 0; z-index: 50;
     background: linear-gradient(180deg, rgba(10,15,20,0.9), rgba(10,15,20,0.6));
     backdrop-filter: saturate(130%) blur(12px);
     border-bottom: 1px solid var(--stroke);
   }
-  .container { max-width: 1100px; margin: 0 auto; padding: 18px 20px; }
-  .brand { display:flex; align-items:flex-start; gap:14px; }
-  .crest {
-    width: 44px; height: 44px; border-radius: 50%;
+  .top-container{
+    max-width: 1100px; margin: 0 auto; padding: 18px 20px;
+  }
+  .brand-row{
+    display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; column-gap: 14px;
+  }
+  .crest{
+    width: 48px; height: 48px; border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent-2));
     box-shadow: 0 0 24px rgba(0,229,255,0.45), inset 0 0 22px rgba(42,255,128,0.3);
     border: 1px solid rgba(255,255,255,0.08);
   }
-  .title {
+  .brand-center{
+    text-align: center;
+  }
+  .title{
     font-family: Orbitron, Inter, sans-serif;
     font-weight: 700; letter-spacing: 0.6px; margin:0;
     font-size: clamp(1.2rem, 1.4rem + 1vw, 2rem);
-    display:flex; align-items:center; gap:8px;
     text-shadow: 0 0 20px rgba(0,229,255,0.2);
   }
-  .subtitle { margin: 2px 0 0 0; font-size: 0.95rem; color: var(--muted); }
-  .neon-bar { height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent); opacity: 0.5; }
+  .subtitle{
+    margin: 6px 0 0 0; font-size: 0.95rem; color: var(--muted);
+  }
+  .neon-bar{ height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent); opacity: 0.5; }
 
   /* Main layout */
-  main { padding: 28px 20px 140px; max-width: 1100px; margin: 0 auto; }
-  .card {
+  main { padding: 28px 20px 150px; max-width: 1100px; margin: 0 auto; }
+
+  .card{
     background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.04));
     border: 1px solid var(--stroke);
     border-radius: var(--radius);
@@ -95,36 +102,8 @@
     backdrop-filter: blur(14px) saturate(140%);
     overflow: hidden;
   }
-  .card-header {
-    display:flex; align-items:center; justify-content: space-between;
-    padding: 16px 18px; border-bottom: 1px solid var(--stroke);
-  }
-  .card-title { margin: 0; font-size: 1.1rem; color: var(--muted); letter-spacing: 0.3px; }
-  .actions { display:flex; align-items:center; gap:10px; }
 
-  .btn {
-    appearance: none; border: 1px solid var(--stroke); color: var(--text);
-    background: rgba(255,255,255,0.04);
-    padding: 10px 14px; border-radius: 12px; font-weight: 600; letter-spacing: 0.2px;
-    transition: transform .15s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
-    cursor: pointer;
-  }
-  .btn:hover { background: rgba(255,255,255,0.08); transform: translateY(-1px); }
-  .btn:focus-visible { outline: none; box-shadow: var(--focus); }
-  .btn-primary {
-    border-color: rgba(0,229,255,0.45);
-    background: linear-gradient(180deg, rgba(0,229,255,0.15), rgba(0,229,255,0.06));
-  }
-  .btn-primary:hover {
-    background: linear-gradient(180deg, rgba(0,229,255,0.22), rgba(0,229,255,0.08));
-    box-shadow: 0 0 24px rgba(0,229,255,0.25);
-  }
-  .btn[disabled]{ opacity: 0.55; cursor: not-allowed; }
-  .btn-icon { display:inline-flex; align-items:center; gap:8px; }
-
-  .last-sync { color: var(--muted); font-size: 0.88rem; }
-
-  /* Table */
+  /* Table (no header bar/title) */
   .table-wrap { width: 100%; overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; background: transparent; font-size: 0.98rem; }
   thead th {
@@ -132,28 +111,21 @@
     position: sticky; top: 0; background: rgba(12,18,26,0.7); backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--stroke);
   }
+  thead th.col-emoji { width: 48px; text-align: center; }
   tbody td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  tbody td.col-emoji { text-align: center; }
   tbody tr { transition: background .15s ease; }
   tbody tr:nth-child(even){ background: rgba(255,255,255,0.02); }
   tbody tr:hover{ background: rgba(0,229,255,0.06); }
 
-  .player { max-width: 340px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .player { max-width: 420px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .address { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; letter-spacing: 0.2px; }
   .score { font-variant-numeric: tabular-nums; font-weight: 700; }
 
-  /* Emoji badge styling for visibility */
-  .badge {
-    display:inline-flex; align-items:center; justify-content:center;
-    min-width: 28px; height: 28px; border-radius: 8px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.10);
-    font-size: 16px;
-  }
-  .badge-empty { opacity: 0.55; }
+  .crown { margin-left: 6px; }
 
-  /* State + skeleton */
+  /* State + skeleton (4 columns) */
   .state { padding: 26px; text-align: center; color: var(--muted); }
-
   .skeleton {
     height: 14px; border-radius: 8px;
     background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.14), rgba(255,255,255,0.06));
@@ -161,10 +133,9 @@
     animation: shimmer 1.4s ease-in-out infinite;
   }
   .sk1{ width: 60%; }      /* name */
-  .sk2{ width: 180px; }    /* address */
-  .sk3{ width: 80px; }     /* score */
-  .sk4{ width: 60px; }     /* crown */
-  .sk5{ width: 60px; }     /* penguin */
+  .sk2{ width: 200px; }    /* address */
+  .sk3{ width: 90px; }     /* score */
+  .sk4{ width: 20px; margin: 0 auto; }  /* penguin column */
   @keyframes shimmer { 0%{ background-position: 200% 0 } 100%{ background-position: -200% 0 } }
 
   /* Bottom region (not a footer) */
@@ -178,7 +149,7 @@
   }
   .bottom-wrap{
     width: 100%; max-width: 1100px;
-    display: grid; grid-template-columns: 1fr auto; gap: 12px;
+    display: grid; grid-template-columns: 1fr; gap: 12px;
     align-items: start;
   }
   .contract-group{
@@ -190,35 +161,37 @@
     border: 1px solid var(--stroke); font-family: inherit; font-size: 0.98rem;
   }
   .input[readonly]{ color: #d7eaff; }
+  .btn{
+    appearance: none; border: 1px solid var(--stroke); color: var(--text);
+    background: rgba(255,255,255,0.04);
+    padding: 10px 14px; border-radius: 12px; font-weight: 600; letter-spacing: 0.2px;
+    transition: transform .15s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    cursor: pointer; text-decoration: none; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn:hover{ background: rgba(255,255,255,0.08); transform: translateY(-1px); }
+  .btn:focus-visible{ outline: none; box-shadow: var(--focus); }
+  .btn-primary{
+    border-color: rgba(0,229,255,0.45);
+    background: linear-gradient(180deg, rgba(0,229,255,0.15), rgba(0,229,255,0.06));
+  }
+  .btn-primary:hover{
+    background: linear-gradient(180deg, rgba(0,229,255,0.22), rgba(0,229,255,0.08));
+    box-shadow: 0 0 24px rgba(0,229,255,0.25);
+  }
   .btn-chart{ white-space: nowrap; }
 
-  .socials{
-    grid-column: 1 / -1;
-    display:flex; align-items:center; gap: 10px;
-    margin-top: 6px; flex-wrap: wrap;
+  .socials-row{
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   }
-  .social-btn{
-    display:inline-flex; align-items:center; gap:10px;
-    padding: 10px 12px; border-radius: 999px; text-decoration: none;
-    color: var(--text); border: 1px solid var(--stroke);
-    background: rgba(255,255,255,0.04);
-    transition: transform .15s ease, background .2s, box-shadow .2s ease;
+  .socials-left{
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   }
-  .social-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.08); }
-  .social-btn:focus-visible{ outline: none; box-shadow: var(--focus); }
+  .spacer{ flex: 1 1 auto; } /* pushes FAQ to right */
+  .faq-btn { white-space: nowrap; }
 
-  /* Floating FAQ button */
-  .help-btn{
-    position: fixed; right: 18px; bottom: 96px; z-index: 45;
-    width: 54px; height: 54px; border-radius: 50%;
-    display:grid; place-items:center;
-    border: 1px solid rgba(0,229,255,0.35);
-    background: radial-gradient(circle at 30% 30%, rgba(0,229,255,0.22), rgba(0,229,255,0.08));
-    color: var(--text);
-    box-shadow: 0 0 22px rgba(0,229,255,0.2);
-  }
-  .help-btn:hover{ box-shadow: 0 0 28px rgba(0,229,255,0.3); transform: translateY(-1px); }
-  .help-btn:focus-visible{ outline: none; box-shadow: var(--focus); }
+  /* Social icon sizes */
+  .icon{ width: 16px; height: 16px; }
+  .icon-lg{ width: 18px; height: 18px; }
 
   /* Modal */
   .overlay{
@@ -270,7 +243,7 @@
   .toast.show{ display: inline-flex; animation: toastIn .2s ease; }
   @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 6px) } to { opacity: 1; transform: translate(-50%, 0) } }
 
-  /* Responsive: stack table rows on small screens */
+  /* Responsive */
   @media (max-width: 780px){
     thead{ display: none; }
     table, tbody, tr, td{ display: block; width: 100%; }
@@ -283,21 +256,25 @@
       content: attr(data-label);
       color: var(--muted); font-weight: 600; letter-spacing: 0.3px;
     }
+    tbody td.col-emoji::before{ content: ""; } /* no label for emoji column */
     .player { max-width: none; }
-    .bottom-wrap{ grid-template-columns: 1fr; gap: 10px; }
+    .brand-row{ grid-template-columns: 36px 1fr 36px; }
+    .crest{ width: 36px; height: 36px; }
+    .bottom-wrap{ gap: 10px; }
     .contract-group{ grid-template-columns: 1fr auto; grid-auto-rows: auto; }
   }
 </style>
 </head>
 <body>
   <header class="topbar" role="banner">
-    <div class="container">
-      <div class="brand" aria-label="Project brand">
+    <div class="top-container">
+      <div class="brand-row" aria-label="Project brand">
         <div class="crest" aria-hidden="true" title="Project crest glow"></div>
-        <div>
-          <h1 class="title">Dukes &amp; Peasants <span style="color:var(--accent)">•</span></h1>
+        <div class="brand-center">
+          <h1 class="title">Dukes &amp; Peasants</h1>
           <p class="subtitle">A high-stakes on-chain tale—rise from peasant to duke and etch your name on the board.</p>
         </div>
+        <div class="crest" aria-hidden="true" title="Project crest glow"></div>
       </div>
     </div>
     <div class="neon-bar" aria-hidden="true"></div>
@@ -305,32 +282,17 @@
 
   <main id="main">
     <section class="card" aria-label="Leaderboard">
-      <div class="card-header">
-        <h2 class="card-title">Leaderboard</h2>
-        <div class="actions">
-          <span class="last-sync" id="lastSync" aria-live="polite"></span>
-          <button id="refreshBtn" class="btn btn-icon" aria-label="Refresh leaderboard" title="Refresh">
-            <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18">
-              <path d="M21 12a9 9 0 1 1-2.64-6.36" />
-              <path d="M21 3v6h-6" />
-            </svg>
-            Refresh
-          </button>
-        </div>
-      </div>
-
       <div class="table-wrap" id="tableWrap">
         <table aria-describedby="leaderboard-desc">
           <caption id="leaderboard-desc" style="position:absolute;left:-9999px;opacity:0;">
-            Sorted by Beat the Game (Yes first), then by Best Score (descending), then by Follower (Yes first).
+            Sorted by Beat the Game (Yes first), then Best Score (descending), then Follower (Yes first).
           </caption>
           <thead>
             <tr>
               <th scope="col">Name</th>
-              <th scope="col">Sol Address</th>
+              <th scope="col">Solana Address</th>
               <th scope="col">Best Score</th>
-              <th scope="col">Beat the Game</th>
-              <th scope="col">Acquired Follower</th>
+              <th scope="col" class="col-emoji"></th>
             </tr>
           </thead>
           <tbody id="tbody">
@@ -347,45 +309,52 @@
     <div class="bottom-wrap">
       <div class="contract-group">
         <input id="contractInput" class="input" type="text" readonly value="" aria-label="Contract address (readonly)" title="Contract address" />
-        <button id="copyBtn" class="btn btn-icon" aria-label="Copy contract address" title="Copy">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+        <button id="copyBtn" class="btn" aria-label="Copy contract address" title="Copy">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
           </svg>
           Copy
         </button>
-        <a id="chartBtn" class="btn btn-primary btn-icon btn-chart" target="_blank" rel="noopener noreferrer" aria-label="Open Dexscreener chart in new tab" title="Dexscreener">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+        <a id="chartBtn" class="btn btn-primary btn-chart" target="_blank" rel="noopener noreferrer" aria-label="Open Dexscreener chart in new tab" title="Dexscreener">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M18 13V6a2 2 0 0 0-2-2H6" />
             <rect x="8" y="8" width="12" height="12" rx="2" />
             <path d="M12 12l3 3 4-5" />
           </svg>
           Chart
         </a>
+      </div>
 
-        <div class="socials" aria-label="Social links">
-          <a id="twitterLink" class="social-btn" href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter" title="Twitter">
-            <span aria-hidden="true">𝕏</span> Twitter
+      <div class="socials-row" aria-label="Social links">
+        <div class="socials-left">
+          <!-- Twitter (X) -->
+          <a id="twitterLink" class="btn" href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter (X)" title="Twitter (X)">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+              <path d="M3 3h4.7l4 5.6L17.7 3H21l-7.3 9.8L21 21h-4.7l-4.4-6.2L6.3 21H3l7.6-10.2L3 3z"></path>
+            </svg>
+            Twitter
           </a>
-          <a id="discordLink" class="social-btn" href="#" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord">
-            <span aria-hidden="true">💬</span> Discord
+          <!-- Discord -->
+          <a id="discordLink" class="btn" href="#" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+              <path d="M20.317 4.369A18.144 18.144 0 0 0 15.89 3l-.36.75a13.166 13.166 0 0 1 3.264 1.206 11.47 11.47 0 0 0-3.99-1.266 12.78 12.78 0 0 0-4.612.076c-1.59.31-2.73.77-3.99 1.26.91-.44 2.04-.91 3.28-1.21L9.12 3A18.18 18.18 0 0 0 3.68 4.37C1.57 7.52.88 10.57.88 13.57c0 0 2.34 3.53 8.53 3.72l1.04-1.42c-.66-.24-1.32-.56-1.98-.96 1.82 1.08 3.86 1.7 6.08 1.7s4.26-.62 6.08-1.7c-.66.4-1.32.72-1.98.96l1.04 1.42c6.19-.19 8.53-3.72 8.53-3.72 0-3-0.69-6.05-2.81-9.2zM9.5 13.5c-.9 0-1.62-.8-1.62-1.77 0-.98.72-1.77 1.62-1.77.9 0 1.63.8 1.63 1.77 0 .98-.73 1.77-1.63 1.77zm5 0c-.9 0-1.63-.8-1.63-1.77 0-.98.73-1.77 1.63-1.77.9 0 1.62.8 1.62 1.77 0 .98-.72 1.77-1.62 1.77z"/>
+            </svg>
+            Discord
           </a>
-          <a id="telegramLink" class="social-btn" href="#" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
-            <span aria-hidden="true">✈️</span> Telegram
+          <!-- Telegram -->
+          <a id="telegramLink" class="btn" href="#" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+              <path d="M21.94 4.66c.18-.84-.64-1.55-1.44-1.25L2.7 10.17c-.95.36-.94 1.66.03 2l5.2 1.82 2.02 6.18c.28.87 1.4 1.09 1.99.37l2.89-3.5 5.12 3.75c.9.52 1.98.06 2.21-.98l3.78-15.15zM9.52 15.1l-.26 3.77 1.2-2.3 7.2-8.35-8.14 6.88z"/>
+            </svg>
+            Telegram
           </a>
         </div>
+        <div class="spacer" aria-hidden="true"></div>
+        <button id="faqBtn" class="btn faq-btn" aria-haspopup="dialog" aria-controls="faqOverlay" aria-label="Open FAQ" title="FAQ">FAQ</button>
       </div>
     </div>
   </div>
-
-  <!-- Floating Help Button -->
-  <button id="helpBtn" class="help-btn" aria-haspopup="dialog" aria-controls="faqOverlay" aria-label="Open FAQ" title="FAQ">
-    <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="18" height="18">
-      <circle cx="12" cy="12" r="9"></circle>
-      <path d="M9.1 9.5a3 3 0 0 1 5.7 1c0 2-3 2-3 4"></path>
-      <circle cx="12" cy="17" r="0.8" fill="currentColor" stroke="none"></circle>
-    </svg>
-  </button>
 
   <!-- FAQ Modal -->
   <div id="faqOverlay" class="overlay" aria-hidden="true">
@@ -393,7 +362,7 @@
       <div class="modal-header">
         <h3 id="faqTitle" class="modal-title">FAQ — Dukes &amp; Peasants</h3>
         <button id="closeFaqBtn" class="close-btn" aria-label="Close FAQ" title="Close">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M18 6L6 18"></path>
             <path d="M6 6l12 12"></path>
           </svg>
@@ -402,32 +371,28 @@
       <div class="modal-body">
         <div class="faq">
           <div class="faq-item">
-            <h4>What is Dukes &amp; Peasants?</h4>
-            <p>A choice-driven, on-chain adventure where players compete for glory. Your decisions affect your score and whether you beat the game.</p>
-          </div>
-          <div class="faq-item">
             <h4>How is the leaderboard sorted?</h4>
             <p>By players who beat the game first, then highest best score, then whether a follower was acquired.</p>
           </div>
           <div class="faq-item">
             <h4>What do the icons mean?</h4>
-            <p>👑 means you beat the game; 🐧 means you acquired a follower. A dash — means the condition was not met.</p>
+            <p>👑 appears beside a player’s name if they beat the game. 🐧 shows in the last column if they acquired a follower.</p>
           </div>
           <div class="faq-item">
-            <h4>Why is my address truncated?</h4>
-            <p>We show first and last 6 characters for readability. Hover to see the full address in a tooltip.</p>
+            <h4>Why is my Solana address truncated?</h4>
+            <p>We show first and last 6 characters for readability. Hover the address to see the full value in a tooltip.</p>
           </div>
           <div class="faq-item">
-            <h4>How often is the data updated?</h4>
-            <p>You can refresh manually, and new/updated entries auto-refresh shortly after they occur via realtime updates.</p>
+            <h4>How often does the table update?</h4>
+            <p>It updates automatically on database changes via realtime, with a silent 60s fallback poll to keep data fresh.</p>
           </div>
           <div class="faq-item">
             <h4>Where can I view the token chart?</h4>
             <p>Use the Chart button at the bottom to open the Dexscreener page in a new tab.</p>
           </div>
           <div class="faq-item">
-            <h4>Who maintains this project?</h4>
-            <p>The Dukes &amp; Peasants team and community. Join us on Twitter, Discord, and Telegram via the links at the bottom.</p>
+            <h4>Where can I find the community?</h4>
+            <p>Links to Twitter (X), Discord, and Telegram are in the bottom bar.</p>
           </div>
         </div>
       </div>
@@ -451,7 +416,7 @@
   const DISCORD_URL = 'https://discord.gg/PLACEHOLDER';
   const TELEGRAM_URL = 'https://t.me/PLACEHOLDER';
 
-  // ESM-only Supabase import
+  // ESM Supabase
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
   // Initialize client
@@ -460,8 +425,6 @@
   // DOM references
   const tbody = document.getElementById('tbody');
   const stateEl = document.getElementById('state');
-  const refreshBtn = document.getElementById('refreshBtn');
-  const lastSyncEl = document.getElementById('lastSync');
   const contractInput = document.getElementById('contractInput');
   const copyBtn = document.getElementById('copyBtn');
   const chartBtn = document.getElementById('chartBtn');
@@ -471,7 +434,7 @@
   const toast = document.getElementById('toast');
   const toastMsg = document.getElementById('toastMsg');
   const srAnnounce = document.getElementById('srAnnounce');
-  const helpBtn = document.getElementById('helpBtn');
+  const faqBtn = document.getElementById('faqBtn');
   const faqOverlay = document.getElementById('faqOverlay');
   const closeFaqBtn = document.getElementById('closeFaqBtn');
 
@@ -495,7 +458,7 @@
     toastTimer = setTimeout(()=> toast.classList.remove('show'), 1800);
   }
   function escapeHtml(s){
-    return String(s ?? '').replace(/[&<>\"']/g, (m)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m]));
+    return String(s ?? '').replace(/[&<>\"']/g, (m)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;', "'":'&#39;' }[m]));
   }
   const formatNumber = (n)=> typeof n === 'number' ? n.toLocaleString(undefined, { maximumFractionDigits: 0 }) : '-';
   function truncateAddress(addr){
@@ -513,10 +476,9 @@
       const row = document.createElement('tr');
       row.innerHTML = `
         <td data-label="Name"><div class="skeleton sk1"></div></td>
-        <td data-label="Sol Address"><div class="skeleton sk2"></div></td>
+        <td data-label="Solana Address"><div class="skeleton sk2"></div></td>
         <td data-label="Best Score"><div class="skeleton sk3"></div></td>
-        <td data-label="Beat the Game"><div class="skeleton sk4"></div></td>
-        <td data-label="Acquired Follower"><div class="skeleton sk5"></div></td>
+        <td class="col-emoji"><div class="skeleton sk4"></div></td>
       `;
       tbody.appendChild(row);
     }
@@ -542,21 +504,19 @@
       const beat = !!item.has_beaten_game;
       const follower = !!item.has_follower;
 
+      const nameHtml = `${escapeHtml(name || '—')}${beat ? ' <span class="crown" title="Beat the game" aria-label="Beat the game">👑</span>' : ''}`;
+
       const cells = [
-        { label: 'Name', html: `<span class="player" title="${escapeHtml(name || '—')}">${escapeHtml(name || '—')}</span>` },
-        { label: 'Sol Address', html: `<span class="address" title="${escapeHtml(fullAddr || '—')}">${escapeHtml(addrDisplay)}</span>` },
+        { label: 'Name', html: `<span class="player" title="${escapeHtml(name || '—')}">${nameHtml}</span>` },
+        { label: 'Solana Address', html: `<span class="address" title="${escapeHtml(fullAddr || '—')}">${escapeHtml(addrDisplay)}</span>` },
         { label: 'Best Score', html: `<span class="score" title="${score !== null ? formatNumber(score) : '-'}">${score !== null ? formatNumber(score) : '-'}</span>` },
-        { label: 'Beat the Game', html: beat
-            ? `<span class="badge" role="img" aria-label="Beat the game" title="Beat the game">👑</span>`
-            : `<span class="badge badge-empty" aria-label="Not beaten yet" title="Not beaten yet">—</span>` },
-        { label: 'Acquired Follower', html: follower
-            ? `<span class="badge" role="img" aria-label="Has follower" title="Has follower">🐧</span>`
-            : `<span class="badge badge-empty" aria-label="No follower" title="No follower">—</span>` },
+        { label: '', html: follower ? `<span role="img" aria-label="Has follower" title="Has follower">🐧</span>` : '', emoji: true }
       ];
 
       for(const c of cells){
         const td = document.createElement('td');
         td.setAttribute('data-label', c.label);
+        if (c.emoji) td.classList.add('col-emoji');
         td.innerHTML = c.html;
         tr.appendChild(td);
       }
@@ -567,8 +527,6 @@
 
   // Fetch + state
   let isFetching = false;
-  let lastFetchAt = 0;
-
   async function fetchLeaderboard({ showSkeleton = false } = {}){
     if(isFetching) return;
     isFetching = true;
@@ -586,8 +544,6 @@
         return;
       }
       renderRows(data || []);
-      lastFetchAt = Date.now();
-      updateLastSync();
     }catch(err){
       showError(err?.message || 'Unexpected error while fetching data.');
     }finally{
@@ -600,25 +556,6 @@
     stateEl.textContent = 'Error: ' + msg;
     stateEl.style.display = 'block';
   }
-
-  function updateLastSync(){
-    if(!lastFetchAt){ lastSyncEl.textContent = ''; return; }
-    const d = new Date(lastFetchAt);
-    lastSyncEl.textContent = 'Last sync: ' + d.toLocaleTimeString();
-  }
-
-  // Manual refresh
-  let refreshCooldown = false;
-  refreshBtn.addEventListener('click', async ()=>{
-    if(refreshCooldown) return;
-    refreshCooldown = true;
-    refreshBtn.setAttribute('disabled','true');
-    await fetchLeaderboard({ showSkeleton: true });
-    setTimeout(()=>{
-      refreshCooldown = false;
-      refreshBtn.removeAttribute('disabled');
-    }, 900);
-  });
 
   // Clipboard copy
   copyBtn.addEventListener('click', async ()=>{
@@ -645,10 +582,10 @@
       ).subscribe();
     }catch(e){ /* non-critical */ }
   }
-  // Clean up on unload
+  // Cleanup on unload
   window.addEventListener('beforeunload', ()=> { try{ channel?.unsubscribe(); }catch{} });
 
-  // Throttled auto-refresh
+  // Throttled auto-refresh for realtime events
   let autoRefreshPending = false;
   function scheduleAutoRefresh(){
     if(autoRefreshPending) return;
@@ -656,8 +593,11 @@
     setTimeout(async ()=>{
       await fetchLeaderboard();
       autoRefreshPending = false;
-    }, 800);
+    }, 500);
   }
+
+  // Fallback polling every 60s
+  setInterval(()=> { fetchLeaderboard(); }, 60000);
 
   // FAQ modal: open/close + focus trap
   let lastFocusedBeforeModal = null;
@@ -702,18 +642,12 @@
     lastFocusedBeforeModal?.focus();
   }
 
-  helpBtn.addEventListener('click', openFaq);
+  faqBtn.addEventListener('click', openFaq);
   closeFaqBtn.addEventListener('click', closeFaq);
 
   // Init
   renderSkeleton(6);
   fetchLeaderboard().then(()=> setupRealtime());
-  setInterval(updateLastSync, 60000);
-
-  // Gentle hint if placeholders still present
-  if(!SUPABASE_URL || SUPABASE_URL.includes('YOUR-PROJECT')){
-    showToast('TODO: Configure Supabase');
-  }
 </script>
 </body>
 </html>
