@@ -1,17 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 27.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="svg5" xmlns:svg="http://www.w3.org/2000/svg"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1668.56 1221.19"
-	 style="enable-background:new 0 0 1668.56 1221.19;" xml:space="preserve">
-<style type="text/css">
-	.st0{stroke:#FFFFFF;stroke-miterlimit:10;}
-	.st1{fill:#FFFFFF;}
-</style>
-<path class="st0" d="M1168.12,1056.56H511.72c-55.12,0-99.8-44.68-99.8-99.8V300.36c0-55.12,44.68-99.8,99.8-99.8h656.39
-	c55.12,0,99.8,44.68,99.8,99.8v656.39C1267.92,1011.88,1223.24,1056.56,1168.12,1056.56z"/>
-<g id="layer1" transform="translate(52.390088,-25.058597)">
-	<path id="path1009" class="st1" d="M491.03,374.75L721.1,682.38L489.58,932.49h52.11l202.7-218.98l163.77,218.98h177.32
-		L842.46,607.56l215.5-232.81h-52.11L819.18,576.42L668.35,374.75H491.03z M567.66,413.14h81.46l359.72,480.97h-81.46L567.66,413.14
-		z"/>
-</g>
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+	<defs>
+		<image  width="77" height="76" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE0AAABMCAMAAAAfi8onAAAAAXNSR0IB2cksfwAAAs1QTFRF////////////////////AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rlw08AAAAO90Uk5TBMn//T0AWf7fGCj23Qw++PEtcpQp7vpFAr9JFNtnIMUDCtnkEgnGg2N2OPyjrakBLoVVjcMHFenQBgXM62VQhCr3svvsJqR3Yizw+UEP4cHzIxriXESTIfINz3mVSGhxnhG1OaLtznXVEIaAU+cfqDY09Svj1+hReGFGjtNwmryZIguhtmk7nYxSWOUczdLqFy9bfzGwTDV9ahPWyIn0q5xAb8oOuN4bYJAWrDOvCE+HHbtClr6S1KVWfLlkPMAka2ZzxIrYtBnLgac370PgX5hH2jqfkcLc0UslMDJ7XlrHHo+6bG2Xtyd65qpdTj+rE9diAAAGmElEQVR4nJ2Ye1BUVRzHf8eZtVFHrFYkB01QfK1ioGiCT9QYmFzHNnygqeWsmPiIUXyQLJVGIohvxAdoCqIgKT4SNFMkX4mKykvTCid1SKMcH2PTWvQ75+4u59577rLu74/fuXz33M9e7v3ec36/JUAIiIJo6KKZVszNyQs81OnIc+GkluRvl2AtyBPMHuQpBeug9SPxtNceuwJrQ+oxtyV/gkTTk9+F83T6h03D2pH7dPCuAxsN2j/Gq+hI7nGTOpBaAF9ypymYD7lNh66/gIMGXX7C1P02P60rqQEw3GwCpvesokNvUs3RoAeKrX2r+Im9r2EKqHBO61NOc19yFXhaICkDGEAucRP7k/MAIZdfOIMNPEtzS0O5XZBoEHwG05Bz/NRB5DTA8B+cwDx7nsI8gpQ4FBsNQk+oDDviO0xh32vCRpFizBHkWKNkp4WTI0rD6t8+DDCG6sIwkgOYdcaDnGanwdhD+H5EHuDnm0g+3uK79UJYJNlLh6h8XnTQYEIuftP4vfyHUTmYpuSKYN6dS+gwdbdMbaRJhh2aw31o6Pc1OifkhIDm8RfNXj6XZGojDaZeQMNO38l/atRnAZgry1Sw6dtojiaZcpmjwYzNoDQsXWZg1lYlbGZGA+bZJEOh87Sghosqw8ZsQPf4p8tPmkPWYm7R6ZbyW3gazLuiMqy51WqABYW1vGbqtIqeGbdaCZPTYEEKpsWreGlhGjonPoVTwt/6ig5Lk1UwBY0Z1mOq7HbEf4mzIhoN3/+d5XRITFLDFDRIqFEZ1rIV18P5z+xPzxD5GR2WJchPFNLgc4vqn/hiNzonKdH2VzS7cPMe4aahpBnG4Wmtzet5bfmnmFYksOMkC92gVpJ4EUxFkwyb+g1v2ICoOIA0shDsG9T44DghTE2DtFhM6+bz0pqiIoANqOta0Tvac/YnYpiABj0r0bCR83hpQwwm00HbBpUxRwMmoqVXoPW3pNRykjUzGn1mvcM2om0fa8FENFhHvzvwOi+xgiDTTA+z4sULnhYNtk3HD7abeSnrQ9vBzsS7mjAxjRm2eeZHnGRYNIWNOQ8WasPENMmw22fw0q559B8MbxAtnU3QpG13o8wI2ZMw7fnAGUyLJhnWezKv5U7AWmhTlBs0WLPsD4B9E3kpcDguVdFhE9ygwWr6b65dwEv572PaP84dmmTYmZG8loiLEWklLkWd0yTDFlqqOUkqCIwFbtBgCV1d5e/k/khcjw695w5Nn2UEiK0o4bWDo51WsE5osGIlGtbvH76CzWvxLq6VW7QqWGc0iFuJaVEaL+2JQeccNbpDY4aNCJMttJ3pllw02h1a6tLnygo2yD9Tu4J1Tvs2nGa5Ydv4Y0FwLK5aNN8p7cgYK5sjNyyrj45HvCyt2PREOlBUsLmjcB32DXs52vCGk5hDz6gMm1B+CHfKHwULujYtPbmWDic3FagMeyIUU8nIl6DleQ6jQ2loh5whKsOeHowFQbOnLtMMXmzJzptbLxl21Cn+01IL3gRzxSXlWVq0fSaaz0XRDSqE1odyw85PxXR+sIu0kcdpbp7MNijrhRCVYc8OxAeUHOISLTMfCw/wCLZtUKzlyk7hDWt+cEBVwWrQBq0agLlt0UC74Ecb1W4/83Nef2RVb2EiWukrQZh1FwY4FJFhy/rinItBTdF8FkfTQdYlsJbr9BR+qbOMDcCnUc/3PgKaPp295HNLZO/1GxT06hNeujIRC4Lrgc5pV/1prpx2VaZKLZfcsJtpaRGzxRlNKoaqppUrdOPjk8qWKyDbYK9gNWiVJrx8GLGpl/KSIWkJKFuu6lhbBatBqymlVduw9X1VMGHLdaMrptvdNWi7LtPeSXejmwAmarmstZ1xz87wE9J2BBnoIP+dpTGYYWu78NLoBlzqLIX2x8/T+ud1ooO8CuRj6TJ5y4Xx65uYfvMR0O50oDl7suYCKrVcMsMair2xIFjUUUW7255mVXfNB6tg5b8MsAo2uKFMQfO/Rrvruud+4CRODQWFYeEmPeFWDzltdjPaXcf+p2i6FcG1XI6474XO6bORpyUcpddKCsY7hQkMC9DOlG6vYG002wbleDjawbb/B+15qc4T6HbkoAUlsKqnifqdhVTBZsjubnkfBD30stEM/zL7nZl0TwiQh8KwNHYYcNHMOVwg0djvgJD6bLkLMHwbOor1xCRGY0Uf+M4Sd9eqYIYVRU1vpNk2KJ8q8Rx1SC2XOuoKia5NMdugpJ9/XYuL/cR6r/8Bt/j1lYPgh7kAAAAASUVORK5CYII="/>
+	</defs>
+	<style>
+	</style>
+	<use id="Background" href="#img1" x="11" y="12"/>
 </svg>
