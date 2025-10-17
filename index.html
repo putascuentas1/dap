@@ -22,7 +22,7 @@
     --radius: 14px;
     --radius-sm: 10px;
     --focus: 0 0 0 2px rgba(0,229,255,0.5), 0 0 0 6px rgba(0,229,255,0.15);
-    --bottom-pad: 180px; /* default; will be updated by JS to match footer height */
+    --bottom-pad: 180px; /* dynamically updated */
   }
 
   * { box-sizing: border-box; }
@@ -38,10 +38,8 @@
   /* Ambient background */
   body::before, body::after {
     content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -2;
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: -2;
   }
   body::before {
     background:
@@ -59,119 +57,44 @@
   }
   @keyframes gridFloat { from { transform: translateY(0) } to { transform: translateY(-10px) } }
 
-  /* Top banner: centered title + subtitle, crests on both sides */
+  /* Header with logos and centered title */
   .topbar{
     position: sticky; top: 0; z-index: 50;
     background: linear-gradient(180deg, rgba(10,15,20,0.9), rgba(10,15,20,0.6));
     backdrop-filter: saturate(130%) blur(12px);
     border-bottom: 1px solid var(--stroke);
   }
-  .top-container{
-    max-width: 1100px; margin: 0 auto; padding: 18px 20px;
-  }
+  .top-container{ max-width: 1100px; margin: 0 auto; padding: 18px 20px; }
   .brand-row{
-    display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; column-gap: 14px;
+    display: grid;
+    grid-template-columns: 48px 1fr 48px;
+    align-items: center;
+    gap: 14px;
   }
-  .crest{
-    width: 48px; height: 48px; border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent-2));
-    box-shadow: 0 0 24px rgba(0,229,255,0.45), inset 0 0 22px rgba(42,255,128,0.3);
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-  .brand-center{
-    text-align: center;
+  .logo{
+    width: 48px; height: 48px;
+    filter: drop-shadow(0 0 14px rgba(0,229,255,0.35));
   }
   .title{
     font-family: Orbitron, Inter, sans-serif;
     font-weight: 700; letter-spacing: 0.6px; margin:0;
-    font-size: clamp(1.2rem, 1.4rem + 1vw, 2rem);
+    font-size: clamp(1.4rem, 1.2rem + 2vw, 2.2rem);
+    text-align: center;
     text-shadow: 0 0 20px rgba(0,229,255,0.2);
-  }
-  .subtitle{
-    margin: 6px 0 0 0; font-size: 0.95rem; color: var(--muted);
   }
   .neon-bar{ height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent); opacity: 0.5; }
 
-  /* Main layout */
-  main { padding: 28px 20px var(--bottom-pad); max-width: 1100px; margin: 0 auto; transition: padding-bottom .2s ease; }
-
-  .card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.04));
-    border: 1px solid var(--stroke);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(14px) saturate(140%);
-    overflow: hidden;
-  }
-
-  /* Table (no title bar). Keep columns on mobile; provide horizontal scroll container */
-  .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  table { width: 100%; border-collapse: collapse; background: transparent; font-size: 0.98rem; min-width: 720px; }
-  thead th {
-    text-align: left; font-weight: 700; color: #cfe7ff; padding: 14px 16px;
-    position: sticky; top: 0; background: rgba(12,18,26,0.7); backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--stroke);
-  }
-  thead th.col-emoji { width: 48px; text-align: center; }
-  tbody td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: middle; }
-  tbody td.col-emoji { text-align: center; width: 48px; }
-  tbody tr { transition: background .15s ease; }
-  tbody tr:nth-child(even){ background: rgba(255,255,255,0.02); }
-  tbody tr:hover{ background: rgba(0,229,255,0.06); }
-
-  .player { max-width: 420px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .address { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; letter-spacing: 0.2px; }
-  .score { font-variant-numeric: tabular-nums; font-weight: 700; }
-  .crown { margin-left: 6px; }
-
-  /* State + skeleton (4 columns) */
-  .state { padding: 26px; text-align: center; color: var(--muted); }
-  .skeleton {
-    height: 14px; border-radius: 8px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.14), rgba(255,255,255,0.06));
-    background-size: 200% 100%;
-    animation: shimmer 1.4s ease-in-out infinite;
-  }
-  .sk1{ width: 60%; }     /* name */
-  .sk2{ width: 200px; }   /* address */
-  .sk3{ width: 90px; }    /* score */
-  .sk4{ width: 20px; margin: 0 auto; }  /* penguin column */
-  @keyframes shimmer { 0%{ background-position: 200% 0 } 100%{ background-position: -200% 0 } }
-
-  /* Bottom region (not a footer) */
-  .bottom-region{
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
-    padding: 12px 14px 18px;
-    display:flex; justify-content: center;
-    background: linear-gradient(0deg, rgba(10,15,20,0.96), rgba(10,15,20,0.88), rgba(10,15,20,0));
-    border-top: 1px solid var(--stroke);
-    backdrop-filter: blur(12px);
-  }
-  .bottom-wrap{
-    width: 100%; max-width: 1100px;
-    display: grid; grid-template-columns: 1fr; gap: 12px;
-    align-items: start;
-  }
-
-  /* Contract block: input on its own line, then actions row below */
-  .contract-block{
-    display: grid; grid-template-columns: 1fr; gap: 8px; width: 100%;
-  }
-  .input{
-    width: 100%; padding: 12px 12px; border-radius: 12px;
-    background: rgba(255,255,255,0.06); color: var(--text);
-    border: 1px solid var(--stroke); font-family: inherit; font-size: 0.98rem;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .input[readonly]{ color: #d7eaff; }
-  .actions-row{
-    display: grid; grid-template-columns: repeat(2, max-content); gap: 10px; align-items: center;
+  /* Main and top action bar (PLAY) */
+  main { padding: 20px 20px var(--bottom-pad); max-width: 1100px; margin: 0 auto; transition: padding-bottom .2s ease; }
+  .actions-top{
+    display: flex; align-items: center; justify-content: flex-end;
+    margin-bottom: 14px;
   }
 
   .btn{
     appearance: none; border: 1px solid var(--stroke); color: var(--text);
     background: rgba(255,255,255,0.04);
-    padding: 10px 14px; border-radius: 12px; font-weight: 600; letter-spacing: 0.2px;
+    padding: 10px 14px; border-radius: 12px; font-weight: 700; letter-spacing: 0.2px;
     transition: transform .15s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
     cursor: pointer; text-decoration: none; display:inline-flex; align-items:center; gap:8px;
   }
@@ -185,23 +108,147 @@
     background: linear-gradient(180deg, rgba(0,229,255,0.22), rgba(0,229,255,0.08));
     box-shadow: 0 0 24px rgba(0,229,255,0.25);
   }
-  .btn-icon-only{
-    width: 40px; height: 40px; padding: 0; justify-content: center;
+  .btn-play{ padding: 12px 18px; font-size: 1rem; }
+
+  /* Error banner */
+  .error-banner{
+    display:none;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255,72,122,0.12);
+    border: 1px solid rgba(255,72,122,0.45);
+    color: #ffd6e3;
+  }
+  .error-banner.show{ display:block; }
+
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.04));
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px) saturate(140%);
+    overflow: hidden;
   }
 
-  /* Socials row: icons left, FAQ right */
-  .socials-row{
-    display: flex; align-items: center; gap: 10px; flex-wrap: nowrap;
+  /* Desktop table (visible >780px) */
+  .table-wrap { width: 100%; overflow-x: hidden; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+    font-size: 0.98rem;
+    table-layout: auto; /* adapt to viewport width */
   }
-  .socials-left{
-    display: flex; align-items: center; gap: 10px; flex-wrap: nowrap;
+  thead th{
+    text-align: left; font-weight: 700; color: #cfe7ff; padding: 14px 16px;
+    position: sticky; top: 0; background: rgba(12,18,26,0.7); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--stroke);
   }
-  .spacer{ flex: 1 1 auto; } /* pushes FAQ to right */
-  .faq-btn { white-space: nowrap; }
+  thead th.col-emoji { width: 48px; text-align: center; }
+  thead th.col-rank { width: 72px; }
+  tbody td{ padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: middle; }
+  tbody td.col-emoji{ text-align: center; width: 48px; }
+  tbody tr{ transition: background .15s ease; }
+  tbody tr:nth-child(even){ background: rgba(255,255,255,0.02); }
+  tbody tr:hover{ background: rgba(0,229,255,0.06); }
 
-  /* Icon sizes */
-  .icon{ width: 18px; height: 18px; }
-  .icon-lg{ width: 20px; height: 20px; }
+  .rank { font-weight: 700; color: #dffaff; display: inline-block; }
+  .player { max-width: 340px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .address {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    letter-spacing: 0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    max-width: 280px; display: inline-block;
+  }
+  .score { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .crown { margin-left: 6px; }
+
+  /* Mobile card-list (visible ≤780px) */
+  .cards-wrap { display: none; padding: 8px 8px 14px; }
+  .card-row{
+    display: grid; gap: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 12px 10px;
+  }
+  .cr-top{
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  .cr-left{
+    display: flex; align-items: center; gap: 10px; min-width: 0;
+  }
+  .cr-rank{ font-weight: 800; color: #dffaff; }
+  .cr-name{
+    min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700;
+  }
+  .cr-addr, .cr-score{
+    font-size: 0.95rem; color: var(--muted);
+  }
+  .cr-addr .label { color: #cfe7ff; font-weight: 600; margin-right: 6px; }
+  .cr-penguin{ margin-left: 8px; }
+  .state { padding: 26px; text-align: center; color: var(--muted); }
+
+  /* Skeleton loaders */
+  .skeleton{
+    height: 14px; border-radius: 8px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+  .sk-rank{ width: 30px; }
+  .sk-name{ width: 60%; }
+  .sk-addr{ width: 50%; }
+  .sk-score{ width: 80px; }
+  .sk-emoji{ width: 20px; }
+  @keyframes shimmer { 0%{ background-position: 200% 0 } 100%{ background-position: -200% 0 } }
+
+  /* Bottom region (fixed) */
+  .bottom-region{
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 12px 14px 18px;
+    display:flex; justify-content: center;
+    background: linear-gradient(0deg, rgba(10,15,20,0.96), rgba(10,15,20,0.88), rgba(10,15,20,0));
+    border-top: 1px solid var(--stroke);
+    backdrop-filter: blur(12px);
+  }
+  .bottom-wrap{ width: 100%; max-width: 1100px; display: grid; gap: 12px; }
+
+  /* Contract + actions */
+  .contract-row{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 10px;
+  }
+  .contract-box{
+    position: relative;
+    display: block;
+    padding: 12px 48px 12px 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--stroke);
+    color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    cursor: pointer;
+  }
+  .contract-box:focus-visible{ outline: none; box-shadow: var(--focus); }
+  .copy-svg{
+    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+    width: 18px; height: 18px; opacity: 0.95;
+  }
+
+  .actions-stack{
+    display: grid; grid-auto-flow: column; gap: 10px; align-items: center;
+  }
+  .btn-icon{ display:inline-flex; align-items:center; gap:8px; padding: 10px 12px; }
+  .btn-icon img{ width: 18px; height: 18px; display: block; }
+
+  /* Socials + FAQ row */
+  .socials-row{ display: flex; align-items: center; gap: 10px; flex-wrap: nowrap; }
+  .socials-left{ display: flex; align-items: center; gap: 10px; flex-wrap: nowrap; }
+  .btn-icon-only{ width: 40px; height: 40px; padding: 0; justify-content: center; }
+  .btn-icon-only img{ width: 20px; height: 20px; display: block; }
+  .spacer{ flex: 1 1 auto; }
+  .faq-btn{ white-space: nowrap; }
 
   /* Modal */
   .overlay{
@@ -253,15 +300,23 @@
   .toast.show{ display: inline-flex; animation: toastIn .2s ease; }
   @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 6px) } to { opacity: 1; transform: translate(-50%, 0) } }
 
-  /* Responsive tweaks */
+  /* Mobile layout ≤780px */
   @media (max-width: 780px){
-    .brand-row{ grid-template-columns: 36px 1fr 36px; }
-    .crest{ width: 36px; height: 36px; }
-    table { min-width: 680px; } /* still horizontal scroll; keep columns */
-    .actions-row{ grid-template-columns: 1fr 1fr; } /* two buttons fill row evenly on mobile */
+    .brand-row{ grid-template-columns: 36px 1fr 36px; gap: 12px; }
+    .logo{ width: 36px; height: 36px; }
+
+    .actions-top{ justify-content: center; }
+    .btn-play{ width: 100%; max-width: 320px; }
+
+    /* Switch to card list; hide table */
+    .table-wrap{ display: none; }
+    .cards-wrap{ display: block; }
+
+    /* Bottom actions: Chart + Buy side-by-side below contract */
+    .contract-row{ grid-template-columns: 1fr; }
+    .actions-stack{ grid-auto-flow: row; grid-template-columns: 1fr 1fr; }
     .btn { justify-content: center; }
-    .socials-row{ gap: 8px; }
-    .btn-icon-only{ width: 38px; height: 38px; }
+    .btn-icon img{ width: 20px; height: 20px; }
   }
 </style>
 </head>
@@ -269,19 +324,24 @@
   <header class="topbar" role="banner">
     <div class="top-container">
       <div class="brand-row" aria-label="Project brand">
-        <div class="crest" aria-hidden="true" title="Project crest glow"></div>
-        <div class="brand-center">
-          <h1 class="title">Dukes &amp; Peasants</h1>
-          <p class="subtitle">A high-stakes on-chain tale—rise from peasant to duke and etch your name on the board.</p>
-        </div>
-        <div class="crest" aria-hidden="true" title="Project crest glow"></div>
+        <img class="logo" src="assets/logo1.png" alt="Dukes & Peasants logo left" />
+        <h1 class="title">Dukes &amp; Peasants</h1>
+        <img class="logo" src="assets/logo2.png" alt="Dukes & Peasants logo right" />
       </div>
     </div>
     <div class="neon-bar" aria-hidden="true"></div>
   </header>
 
   <main id="main">
+    <div id="errorBanner" class="error-banner" role="alert" aria-live="polite"></div>
+
+    <!-- PLAY action bar inside main, above leaderboard -->
+    <div class="actions-top">
+      <a id="playBtn" class="btn btn-primary btn-play" href="#" target="_blank" rel="noopener noreferrer" aria-label="Play Dukes &amp; Peasants">PLAY</a>
+    </div>
+
     <section class="card" aria-label="Leaderboard">
+      <!-- Desktop table -->
       <div class="table-wrap" id="tableWrap">
         <table aria-describedby="leaderboard-desc">
           <caption id="leaderboard-desc" style="position:absolute;left:-9999px;opacity:0;">
@@ -289,6 +349,7 @@
           </caption>
           <thead>
             <tr>
+              <th scope="col" class="col-rank">Rank</th>
               <th scope="col">Name</th>
               <th scope="col">Solana Address</th>
               <th scope="col">Best Score</th>
@@ -296,60 +357,54 @@
             </tr>
           </thead>
           <tbody id="tbody">
-            <!-- Skeleton rows rendered by JS -->
+            <!-- Skeleton rows inserted by JS -->
           </tbody>
         </table>
       </div>
+
+      <!-- Mobile cards -->
+      <div class="cards-wrap" id="cardsWrap" aria-label="Leaderboard (mobile)">
+        <!-- Skeleton cards inserted by JS -->
+      </div>
+
       <div id="state" class="state" style="display:none;"></div>
     </section>
   </main>
 
-  <!-- Bottom Region (not a footer) -->
+  <!-- Bottom Region (fixed) -->
   <div class="bottom-region" role="complementary" aria-label="Project links and contract info" id="bottomRegion">
     <div class="bottom-wrap">
-      <div class="contract-block">
-        <input id="contractInput" class="input" type="text" readonly value="" aria-label="Contract address (readonly)" title="Contract address" />
-        <div class="actions-row">
-          <button id="copyBtn" class="btn" aria-label="Copy contract address" title="Copy">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            Copy
-          </button>
-          <a id="chartBtn" class="btn btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Open Dexscreener chart in new tab" title="Dexscreener">
-            <!-- Neutral chart-square icon (fallback). Swap to Dexscreener logo by replacing this SVG; data-ds marks the slot -->
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" data-ds="fallback" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="3"></rect>
-              <path d="M7 15l3-3 3 2 4-5"></path>
-            </svg>
-            Chart
+      <div class="contract-row">
+        <div id="contractBox" class="contract-box" tabindex="0" role="button" aria-label="Copy contract address" title="Click to copy">
+          <span id="contractText"></span>
+          <!-- Inline overlapping-squares copy icon -->
+          <svg class="copy-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="11" height="11" rx="2" ry="2"></rect>
+            <rect x="4" y="4" width="11" height="11" rx="2" ry="2"></rect>
+          </svg>
+        </div>
+        <div class="actions-stack">
+          <a id="chartBtn" class="btn btn-icon" target="_blank" rel="noopener noreferrer" aria-label="Open Dexscreener chart">
+            <img src="assets/dexscreener.svg" alt="Dexscreener" />
+            <span class="btn-label">Chart</span>
+          </a>
+          <a id="buyBtn" class="btn btn-icon" target="_blank" rel="noopener noreferrer" aria-label="Open Buy link">
+            <img src="assets/pumpfun.svg" alt="Pump.fun" />
+            <span class="btn-label">Buy</span>
           </a>
         </div>
       </div>
 
       <div class="socials-row" aria-label="Social links">
         <div class="socials-left">
-          <!-- X (Twitter) icon-only -->
-          <a id="twitterLink" class="btn btn-icon-only" href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter (X)" title="Twitter (X)">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-              <!-- Classic X monogram -->
-              <path d="M3 3h5.7l4.13 5.46L16.9 3H21l-7.3 9.8L22 21h-5.7l-4.4-6.2L7.1 21H2l7.7-10.2L3 3z"></path>
-            </svg>
+          <a id="twitterLink" class="btn btn-icon-only" href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+            <img src="assets/twitter.svg" alt="Twitter" />
           </a>
-          <!-- Discord icon-only (high-quality glyph) -->
-          <a id="discordLink" class="btn btn-icon-only" href="#" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-              <!-- Based on Simple Icons Discord glyph -->
-              <path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3.6a.074.074 0 0 0-.079.037 13.745 13.745 0 0 0-.6 1.233 19.736 19.736 0 0 0-5.69 0 12.64 12.64 0 0 0-.617-1.233.077.077 0 0 0-.079-.037 19.735 19.735 0 0 0-3.76.769c-2.377 3.42-3.024 6.756-2.704 10.059a.079.079 0 0 0 .031.052 19.9 19.9 0 0 0 5.986 3.03.078.078 0 0 0 .084-.03c.461-.63.872-1.295 1.226-1.994a.077.077 0 0 0-.043-.106 12.906 12.906 0 0 1-1.845-.882.078.078 0 0 1-.008-.129c.124-.093.248-.19.366-.287a.077.077 0 0 1 .081-.01c3.87 1.773 8.06 1.773 11.897 0a.077.077 0 0 1 .082.01c.118.098.242.194.366.287a.078.078 0 0 1-.006.129c-.59.338-1.212.632-1.853.882a.077.077 0 0 0-.042.107c.36.698.772 1.363 1.225 1.993a.078.078 0 0 0 .084.031 19.876 19.876 0 0 0 6.005-3.03.078.078 0 0 0 .031-.05c.5-5.177-.84-8.476-2.704-10.06ZM9.53 13.705c-1.166 0-2.124-1.08-2.124-2.408 0-1.329.938-2.408 2.123-2.408 1.195 0 2.142 1.089 2.124 2.408 0 1.328-.938 2.408-2.123 2.408Zm5.002 0c-1.166 0-2.124-1.08-2.124-2.408 0-1.329.938-2.408 2.124-2.408 1.195 0 2.142 1.089 2.124 2.408 0 1.328-.929 2.408-2.124 2.408Z"/>
-            </svg>
+          <a id="discordLink" class="btn btn-icon-only" href="#" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+            <img src="assets/discord.svg" alt="Discord" />
           </a>
-          <!-- Telegram icon-only (high-quality glyph) -->
-          <a id="telegramLink" class="btn btn-icon-only" href="#" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-              <!-- Based on Simple Icons Telegram paper plane -->
-              <path d="M22.5 2.4a.9.9 0 0 0-1-.15L2.28 10.2c-.96.43-.93 1.85.05 2.23l5.43 2.07 1.9 5.96c.27.84 1.36 1.05 1.93.35l3.42-4.19 5.33 3.9c.92.54 2.04.02 2.29-.99l3.9-15.6a.9.9 0 0 0-.24-.86ZM9 14.7l-.3 4.26 1.36-2.52 7.92-9.17L9 14.7Z"/>
-            </svg>
+          <a id="telegramLink" class="btn btn-icon-only" href="#" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+            <img src="assets/telegram.svg" alt="Telegram" />
           </a>
         </div>
         <div class="spacer" aria-hidden="true"></div>
@@ -364,37 +419,34 @@
       <div class="modal-header">
         <h3 id="faqTitle" class="modal-title">FAQ — Dukes &amp; Peasants</h3>
         <button id="closeFaqBtn" class="close-btn" aria-label="Close FAQ" title="Close">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M18 6L6 18"></path>
-            <path d="M6 6l12 12"></path>
-          </svg>
+          <span aria-hidden="true">✕</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="faq">
           <div class="faq-item">
             <h4>How is the leaderboard sorted?</h4>
-            <p>By players who beat the game first, then highest best score, then whether a follower was acquired.</p>
+            <p>Players who beat the game appear first, then highest best score, then whether a follower was acquired.</p>
           </div>
           <div class="faq-item">
             <h4>What do the icons mean?</h4>
-            <p>👑 appears beside a player’s name if they beat the game. 🐧 shows in the last column if they acquired a follower.</p>
+            <p>👑 appears beside a player’s name if they beat the game. 🐧 appears if they acquired a follower.</p>
           </div>
           <div class="faq-item">
             <h4>Why is my Solana address truncated?</h4>
-            <p>We show first and last 6 characters for readability. Hover the address to see the full value in a tooltip.</p>
+            <p>For readability. Hover on desktop to see the full address on the tooltip.</p>
           </div>
           <div class="faq-item">
             <h4>How often does the table update?</h4>
-            <p>It updates automatically on database changes via realtime, with a silent 60s fallback poll to keep data fresh.</p>
+            <p>It updates automatically via realtime changes, with a silent 60s fallback refresh.</p>
           </div>
           <div class="faq-item">
-            <h4>Where can I view the token chart?</h4>
-            <p>Use the Chart button at the bottom to open the Dexscreener page in a new tab.</p>
+            <h4>Where can I view the token chart or buy?</h4>
+            <p>Use the Chart and Buy buttons in the bottom bar. They open in a new tab.</p>
           </div>
           <div class="faq-item">
             <h4>Where can I find the community?</h4>
-            <p>Links to Twitter (X), Discord, and Telegram are in the bottom bar.</p>
+            <p>Links to Twitter, Discord, and Telegram are in the bottom bar.</p>
           </div>
         </div>
       </div>
@@ -408,48 +460,62 @@
   <div id="srAnnounce" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" aria-live="polite"></div>
 
 <script type="module">
-  // Config: hardcoded constants
+  // ESM-only import for Supabase
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+  // Config constants
   const SUPABASE_URL = 'https://poxiozhybwvscgklmuhm.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBveGlvemh5Ynd2c2Nna2xtdWhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc4NzM0NjQsImV4cCI6MjA3MzQ0OTQ2NH0.q2uAUAeaHzW3vYgoHlvJA_lAHYp5GK2AiLmIk9nFnvE';
   const TABLE_NAME = 'users_public';
   const CONTRACT_ADDRESS = 'PLACEHOLDER';
   const DEXSCREENER_URL = 'https://dexscreener.com/PLACEHOLDER';
+  const BUY_URL = 'https://pump.fun/PLACEHOLDER';
   const TWITTER_URL = 'https://twitter.com/PLACEHOLDER';
   const DISCORD_URL = 'https://discord.gg/PLACEHOLDER';
   const TELEGRAM_URL = 'https://t.me/PLACEHOLDER';
-
-  // ESM Supabase
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-  // Initialize client
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const PLAY_URL = 'https://telegram.org/PLACEHOLDER';
 
   // DOM references
   const tbody = document.getElementById('tbody');
+  const cardsWrap = document.getElementById('cardsWrap');
   const stateEl = document.getElementById('state');
-  const contractInput = document.getElementById('contractInput');
-  const copyBtn = document.getElementById('copyBtn');
+  const errorBanner = document.getElementById('errorBanner');
+
+  const contractBox = document.getElementById('contractBox');
+  const contractText = document.getElementById('contractText');
+
   const chartBtn = document.getElementById('chartBtn');
+  const buyBtn = document.getElementById('buyBtn');
+
   const twitterLink = document.getElementById('twitterLink');
   const discordLink = document.getElementById('discordLink');
   const telegramLink = document.getElementById('telegramLink');
+  const playBtn = document.getElementById('playBtn');
+
   const toast = document.getElementById('toast');
   const toastMsg = document.getElementById('toastMsg');
   const srAnnounce = document.getElementById('srAnnounce');
+
   const faqBtn = document.getElementById('faqBtn');
   const faqOverlay = document.getElementById('faqOverlay');
   const closeFaqBtn = document.getElementById('closeFaqBtn');
+
   const bottomRegion = document.getElementById('bottomRegion');
-  const mainEl = document.getElementById('main');
 
-  // Apply config immediately to UI
-  contractInput.value = CONTRACT_ADDRESS;
-  chartBtn.href = DEXSCREENER_URL;
-  twitterLink.href = TWITTER_URL;
-  discordLink.href = DISCORD_URL;
-  telegramLink.href = TELEGRAM_URL;
+  // Apply config to DOM immediately (before any network)
+  (function applyConfig() {
+    try {
+      contractText.textContent = CONTRACT_ADDRESS;
+      chartBtn.href = DEXSCREENER_URL;
+      buyBtn.href = BUY_URL;
+      twitterLink.href = TWITTER_URL;
+      discordLink.href = DISCORD_URL;
+      telegramLink.href = TELEGRAM_URL;
+      playBtn.href = PLAY_URL;
+    } catch (_) {}
+  })();
 
-  // Helpers
+  // Bind UI handlers up-front (independent of data fetch)
   function announce(msg){
     srAnnounce.textContent = '';
     setTimeout(()=>{ srAnnounce.textContent = msg; }, 10);
@@ -461,119 +527,8 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(()=> toast.classList.remove('show'), 1800);
   }
-  function escapeHtml(s){
-    return String(s ?? '').replace(/[&<>\"']/g, (m)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m]));
-  }
-  const formatNumber = (n)=> typeof n === 'number' ? n.toLocaleString(undefined, { maximumFractionDigits: 0 }) : '-';
-  function truncateAddress(addr){
-    if(!addr) return '—';
-    const s = String(addr);
-    if(s.length <= 12) return s;
-    return `${s.slice(0,6)}...${s.slice(-6)}`;
-  }
 
-  // Prevent footer overlap: adjust main padding-bottom to footer height
-  function adjustBottomPadding(){
-    try{
-      const h = bottomRegion?.offsetHeight || 0;
-      document.documentElement.style.setProperty('--bottom-pad', (h + 24) + 'px');
-    }catch{}
-  }
-  window.addEventListener('resize', adjustBottomPadding);
-  window.addEventListener('load', adjustBottomPadding);
-
-  // Skeleton
-  function renderSkeleton(count = 6){
-    stateEl.style.display = 'none';
-    tbody.innerHTML = '';
-    for(let i=0;i<count;i++){
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td data-label="Name"><div class="skeleton sk1"></div></td>
-        <td data-label="Solana Address"><div class="skeleton sk2"></div></td>
-        <td data-label="Best Score"><div class="skeleton sk3"></div></td>
-        <td class="col-emoji"><div class="skeleton sk4"></div></td>
-      `;
-      tbody.appendChild(row);
-    }
-  }
-
-  // Render rows
-  function renderRows(rows){
-    tbody.innerHTML = '';
-    if(!rows || rows.length === 0){
-      stateEl.textContent = 'No entries yet. Be the first to conquer the board.';
-      stateEl.style.display = 'block';
-      return;
-    }
-    stateEl.style.display = 'none';
-
-    for(const item of rows){
-      const tr = document.createElement('tr');
-
-      const name = (item.name ?? '').toString();
-      const fullAddr = item.sol_address ? String(item.sol_address) : '';
-      const addrDisplay = truncateAddress(fullAddr);
-      const score = typeof item.best_score === 'number' ? item.best_score : null;
-      const beat = !!item.has_beaten_game;
-      const follower = !!item.has_follower;
-
-      const nameHtml = `${escapeHtml(name || '—')}${beat ? ' <span class="crown" title="Beat the game" aria-label="Beat the game">👑</span>' : ''}`;
-
-      const cells = [
-        { label: 'Name', html: `<span class="player" title="${escapeHtml(name || '—')}">${nameHtml}</span>` },
-        { label: 'Solana Address', html: `<span class="address" title="${escapeHtml(fullAddr || '—')}">${escapeHtml(addrDisplay)}</span>` },
-        { label: 'Best Score', html: `<span class="score" title="${score !== null ? formatNumber(score) : '-'}">${score !== null ? formatNumber(score) : '-'}</span>` },
-        { label: '', html: follower ? `<span role="img" aria-label="Has follower" title="Has follower">🐧</span>` : '', emoji: true }
-      ];
-
-      for(const c of cells){
-        const td = document.createElement('td');
-        td.setAttribute('data-label', c.label);
-        if (c.emoji) td.classList.add('col-emoji');
-        td.innerHTML = c.html;
-        tr.appendChild(td);
-      }
-
-      tbody.appendChild(tr);
-    }
-  }
-
-  // Fetch + state
-  let isFetching = false;
-  async function fetchLeaderboard({ showSkeleton = false } = {}){
-    if(isFetching) return;
-    isFetching = true;
-    if(showSkeleton) renderSkeleton(6);
-    try{
-      const { data, error } = await supabase
-        .from(TABLE_NAME)
-        .select('user_id, name, sol_address, best_score, has_beaten_game, has_follower, updated_at')
-        .order('has_beaten_game', { ascending: false })
-        .order('best_score', { ascending: false })
-        .order('has_follower', { ascending: false });
-
-      if(error){
-        showError(error.message || 'Failed to load leaderboard.');
-        return;
-      }
-      renderRows(data || []);
-      adjustBottomPadding(); // ensure last row visible after render
-    }catch(err){
-      showError(err?.message || 'Unexpected error while fetching data.');
-    }finally{
-      isFetching = false;
-    }
-  }
-
-  function showError(msg){
-    tbody.innerHTML = '';
-    stateEl.textContent = 'Error: ' + msg;
-    stateEl.style.display = 'block';
-  }
-
-  // Clipboard copy
-  copyBtn.addEventListener('click', async ()=>{
+  async function copyContract(){
     try{
       await navigator.clipboard.writeText(CONTRACT_ADDRESS);
       showToast('Contract copied');
@@ -581,42 +536,16 @@
     }catch{
       showToast('Copy failed');
     }
+  }
+  contractBox.addEventListener('click', copyContract);
+  contractBox.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      copyContract();
+    }
   });
 
-  // Realtime subscription (INSERT & UPDATE)
-  let channel = null;
-  function setupRealtime(){
-    try{
-      channel = supabase.channel('users_public_changes');
-      channel.on('postgres_changes',
-        { event: 'INSERT', schema: 'public', table: TABLE_NAME },
-        scheduleAutoRefresh
-      ).on('postgres_changes',
-        { event: 'UPDATE', schema: 'public', table: TABLE_NAME },
-        scheduleAutoRefresh
-      ).subscribe();
-    }catch(e){ /* non-critical */ }
-  }
-  // Cleanup on unload
-  window.addEventListener('beforeunload', ()=> { try{ channel?.unsubscribe(); }catch{} });
-
-  // Throttled auto-refresh for realtime events
-  let autoRefreshPending = false;
-  function scheduleAutoRefresh(){
-    if(autoRefreshPending) return;
-    autoRefreshPending = true;
-    setTimeout(async ()=>{
-      await fetchLeaderboard();
-      autoRefreshPending = false;
-    }, 400);
-  }
-
-  // Fallback polling every 60s
-  setInterval(()=> { fetchLeaderboard(); }, 60000);
-
-  // FAQ modal: open/close + focus trap
-  let lastFocusedBeforeModal = null;
-
+  // FAQ modal controls + focus trap
   function getFocusable(root){
     return Array.from(root.querySelectorAll(
       'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
@@ -639,9 +568,7 @@
     const modal = faqOverlay.querySelector('.modal');
     if(!modal.contains(e.target)){ closeFaq(); }
   }
-
   function openFaq(){
-    lastFocusedBeforeModal = document.activeElement;
     faqOverlay.classList.add('open');
     faqOverlay.setAttribute('aria-hidden','false');
     const first = getFocusable(faqOverlay)[0];
@@ -654,15 +581,224 @@
     faqOverlay.setAttribute('aria-hidden','true');
     document.removeEventListener('keydown', handleModalKeydown);
     faqOverlay.removeEventListener('mousedown', onOverlayClick);
-    lastFocusedBeforeModal?.focus();
+    faqBtn?.focus();
   }
-
   faqBtn.addEventListener('click', openFaq);
   closeFaqBtn.addEventListener('click', closeFaq);
 
+  // Prevent footer overlap: adjust main padding-bottom to footer height
+  function adjustBottomPadding(){
+    try{
+      const h = bottomRegion?.offsetHeight || 0;
+      document.documentElement.style.setProperty('--bottom-pad', (h + 24) + 'px');
+    }catch{}
+  }
+  window.addEventListener('resize', adjustBottomPadding);
+  window.addEventListener('load', adjustBottomPadding);
+
+  // Utility formatters
+  function escapeHtml(s){
+    return String(s ?? '').replace(/[&<>\"']/g, (m)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m]));
+  }
+  const formatNumber = (n)=> typeof n === 'number' ? n.toLocaleString(undefined, { maximumFractionDigits: 0 }) : '-';
+  function truncateAddressDesktop(addr){
+    if(!addr) return '—';
+    const s = String(addr);
+    if(s.length <= 12) return s;
+    return `${s.slice(0,6)}...${s.slice(-6)}`;
+  }
+  function truncateAddressMobile(addr){
+    if(!addr) return '—';
+    const s = String(addr);
+    return s.length <= 6 ? s : `${s.slice(0,6)}...`;
+  }
+
+  // Skeletons
+  function renderTableSkeleton(count = 6){
+    stateEl.style.display = 'none';
+    tbody.innerHTML = '';
+    for(let i=0;i<count;i++){
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><div class="skeleton sk-rank"></div></td>
+        <td><div class="skeleton sk-name"></div></td>
+        <td><div class="skeleton sk-addr"></div></td>
+        <td><div class="skeleton sk-score"></div></td>
+        <td class="col-emoji"><div class="skeleton sk-emoji"></div></td>
+      `;
+      tbody.appendChild(tr);
+    }
+  }
+  function renderCardsSkeleton(count = 6){
+    stateEl.style.display = 'none';
+    cardsWrap.innerHTML = '';
+    for(let i=0;i<count;i++){
+      const row = document.createElement('div');
+      row.className = 'card-row';
+      row.innerHTML = `
+        <div class="cr-top">
+          <div class="cr-left">
+            <span class="cr-rank"><span class="skeleton sk-rank" style="display:inline-block;height:14px;"></span></span>
+            <span class="cr-name"><span class="skeleton sk-name" style="display:inline-block;height:14px;"></span></span>
+          </div>
+          <span class="cr-penguin"><span class="skeleton sk-emoji" style="display:inline-block;height:14px;"></span></span>
+        </div>
+        <div class="cr-addr"><span class="label">Address</span><span class="skeleton sk-addr" style="display:inline-block;height:14px;"></span></div>
+        <div class="cr-score"><span class="skeleton sk-score" style="display:inline-block;height:14px;"></span></div>
+      `;
+      cardsWrap.appendChild(row);
+    }
+  }
+
+  // Rendering
+  function renderTableRows(rows){
+    tbody.innerHTML = '';
+    if(!rows || rows.length === 0){
+      stateEl.textContent = 'No entries yet. Be the first to conquer the board.';
+      stateEl.style.display = 'block';
+      return;
+    }
+    stateEl.style.display = 'none';
+    let rank = 1;
+    for(const item of rows){
+      const name = (item.name ?? '').toString();
+      const fullAddr = item.sol_address ? String(item.sol_address) : '';
+      const score = typeof item.best_score === 'number' ? item.best_score : null;
+      const beat = !!item.has_beaten_game;
+      const follower = !!item.has_follower;
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><span class="rank">#${rank}</span></td>
+        <td><span class="player" title="${escapeHtml(name || '—')}">${escapeHtml(name || '—')}${beat ? ' <span class="crown" title="Beat the game" aria-label="Beat the game">👑</span>' : ''}</span></td>
+        <td><span class="address" title="${escapeHtml(fullAddr || '—')}">${escapeHtml(truncateAddressDesktop(fullAddr))}</span></td>
+        <td><span class="score" title="${score !== null ? formatNumber(score) : '-'}">${score !== null ? formatNumber(score) : '-'}</span></td>
+        <td class="col-emoji">${follower ? '<span role="img" aria-label="Has follower" title="Has follower">🐧</span>' : ''}</td>
+      `;
+      tbody.appendChild(tr);
+      rank++;
+    }
+  }
+
+  function renderCardRows(rows){
+    cardsWrap.innerHTML = '';
+    if(!rows || rows.length === 0){
+      if (stateEl) { stateEl.textContent = 'No entries yet. Be the first to conquer the board.'; stateEl.style.display = 'block'; }
+      return;
+    }
+    stateEl.style.display = 'none';
+    let rank = 1;
+    for(const item of rows){
+      const name = (item.name ?? '').toString();
+      const fullAddr = item.sol_address ? String(item.sol_address) : '';
+      const score = typeof item.best_score === 'number' ? item.best_score : null;
+      const beat = !!item.has_beaten_game;
+      const follower = !!item.has_follower;
+
+      const row = document.createElement('div');
+      row.className = 'card-row';
+      row.innerHTML = `
+        <div class="cr-top">
+          <div class="cr-left">
+            <span class="cr-rank">#${rank}</span>
+            <span class="cr-name" title="${escapeHtml(name || '—')}">${escapeHtml(name || '—')}${beat ? ' <span class="crown" title="Beat the game" aria-label="Beat the game">👑</span>' : ''}</span>
+          </div>
+          <span class="cr-penguin">${follower ? '<span role="img" aria-label="Has follower" title="Has follower">🐧</span>' : ''}</span>
+        </div>
+        <div class="cr-addr" title="${escapeHtml(fullAddr || '—')}"><span class="label">Address</span>${escapeHtml(truncateAddressMobile(fullAddr))}</div>
+        <div class="cr-score"><strong>Best Score:</strong> ${score !== null ? formatNumber(score) : '-'}</div>
+      `;
+      cardsWrap.appendChild(row);
+      rank++;
+    }
+  }
+
+  // Error handling
+  function showErrorBanner(msg){
+    if(!errorBanner) return;
+    errorBanner.textContent = msg;
+    errorBanner.classList.add('show');
+  }
+  function clearErrorBanner(){
+    if(!errorBanner) return;
+    errorBanner.textContent = '';
+    errorBanner.classList.remove('show');
+  }
+
+  // Initialize Supabase client (guard)
+  let supabase = null;
+  try {
+    supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  } catch (e) {
+    showErrorBanner('Failed to initialize data client.');
+  }
+
+  // Fetch and state
+  let isFetching = false;
+  async function fetchLeaderboard({ showSkeleton = false } = {}){
+    if(!supabase){
+      showErrorBanner('Data client not available.');
+      return;
+    }
+    if(isFetching) return;
+    isFetching = true;
+    clearErrorBanner();
+    if(showSkeleton){
+      renderTableSkeleton(6);
+      renderCardsSkeleton(6);
+    }
+    try{
+      const { data, error } = await supabase
+        .from(TABLE_NAME)
+        .select('user_id, name, sol_address, best_score, has_beaten_game, has_follower, updated_at')
+        .order('has_beaten_game', { ascending: false })
+        .order('best_score', { ascending: false })
+        .order('has_follower', { ascending: false });
+
+      if(error){
+        showErrorBanner('Failed to load leaderboard.');
+        return;
+      }
+      renderTableRows(data || []);
+      renderCardRows(data || []);
+      adjustBottomPadding();
+    }catch(err){
+      showErrorBanner('Unexpected error while fetching data.');
+    }finally{
+      isFetching = false;
+    }
+  }
+
+  // Realtime subscription + fallback polling
+  let channel = null;
+  function setupRealtime(){
+    if(!supabase) return;
+    try{
+      channel = supabase.channel('users_public_changes')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: TABLE_NAME }, scheduleAutoRefresh)
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: TABLE_NAME }, scheduleAutoRefresh)
+        .subscribe();
+    }catch(e){
+      // non-critical
+    }
+  }
+  window.addEventListener('beforeunload', ()=> { try{ channel?.unsubscribe(); }catch{} });
+
+  let autoRefreshPending = false;
+  function scheduleAutoRefresh(){
+    if(autoRefreshPending) return;
+    autoRefreshPending = true;
+    setTimeout(async ()=>{
+      await fetchLeaderboard();
+      autoRefreshPending = false;
+    }, 400);
+  }
+  setInterval(()=> { fetchLeaderboard(); }, 60000);
+
   // Init
-  renderSkeleton(6);
-  fetchLeaderboard().then(()=> setupRealtime());
+  renderTableSkeleton(6);
+  renderCardsSkeleton(6);
+  fetchLeaderboard({ showSkeleton: false }).then(()=> setupRealtime());
   adjustBottomPadding();
 </script>
 </body>

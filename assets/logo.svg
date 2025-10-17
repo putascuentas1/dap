@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <clipPath id="clip-left">
+      <!-- Left half; adjust width slightly if you want a wider seam -->
+      <rect x="0" y="0" width="512" height="1024"/>
+    </clipPath>
+  </defs>
+  <image
+    href="https://storage.googleapis.com/dall-e-images/3F6yuL9PRWVqO6GjgFirrQr7z2I3%2F75fbe50e-3be3-498b-9d0c-a1d34fdd2bd3.png"
+    x="0" y="0" width="1024" height="1024" clip-path="url(#clip-left)"/>
+</svg>
