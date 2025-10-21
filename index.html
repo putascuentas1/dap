@@ -489,12 +489,12 @@
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBveGlvemh5Ynd2c2Nna2xtdWhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc4NzM0NjQsImV4cCI6MjA3MzQ0OTQ2NH0.q2uAUAeaHzW3vYgoHlvJA_lAHYp5GK2AiLmIk9nFnvE';
   const TABLE_NAME = 'users_public';
   const CONTRACT_ADDRESS = 'PLACEHOLDER';
-  const DEXSCREENER_URL = 'https://dexscreener.com/PLACEHOLDER';
-  const BUY_URL = 'https://pump.fun/PLACEHOLDER';
+  const DEXSCREENER_URL = 'https://dexscreener.com/solana/'+CONTRACT_ADDRESS;
+  const BUY_URL = 'https://pump.fun/'+CONTRACT_ADDRESS;
   const TWITTER_URL = 'https://twitter.com/PLACEHOLDER';
   const DISCORD_URL = 'https://discord.gg/PLACEHOLDER';
-  const TELEGRAM_URL = 'https://t.me/PLACEHOLDER';
-  const PLAY_URL = 'https://telegram.org/PLACEHOLDER';
+  const TELEGRAM_URL = 'https://t.me/DukesAndPeasants_bot';
+  const PLAY_URL = 'https://t.me/DukesAndPeasants_bot';
   const tbody = document.getElementById('tbody');
   const cardsWrap = document.getElementById('cardsWrap');
   const stateEl = document.getElementById('state');
@@ -700,7 +700,8 @@
         .select('user_id, name, sol_address, best_score, has_beaten_game, has_follower, updated_at')
         .order('has_beaten_game', { ascending: false })
         .order('best_score', { ascending: false })
-        .order('has_follower', { ascending: false });
+        .order('has_follower', { ascending: false })
+        .limit(100);
       if(error){
         showErrorBanner('Failed to load leaderboard.');
         return;
