@@ -373,6 +373,26 @@
         PLAY NOW
       </a>
     </div>
+    <section class="post-table-actions" aria-label="Contract and actions over leaderboard">
+      <div class="contract-row">
+        <div id="contractBox" class="contract-box" tabindex="0" role="button" aria-label="Contract address (focusable)" title="Contract address (select to copy)">
+          <span id="contractText"></span>
+          <button id="copyBtn" class="copy-btn" aria-label="Copy contract" title="Copy contract">
+            <img class="copy-svg" src="assets/copy.svg" alt="Copy" />
+          </button>
+        </div>
+        <div class="actions-stack">
+          <a id="chartBtn" class="btn btn-icon" target="_blank" rel="noopener noreferrer" aria-label="Open Dexscreener chart">
+            <img src="assets/dexscreener.svg" alt="Dexscreener" />
+            <span class="btn-label">Chart</span>
+          </a>
+          <a id="buyBtn" class="btn btn-icon" target="_blank" rel="noopener noreferrer" aria-label="Open Buy link">
+            <img src="assets/pumpfun.svg" alt="Pump.fun" />
+            <span class="btn-label">Buy</span>
+          </a>
+        </div>
+      </div>
+    </section>
     <section class="card" aria-label="Leaderboard">
       <div class="table-wrap" id="tableWrap">
         <table aria-describedby="leaderboard-desc">
@@ -401,26 +421,7 @@
       <div class="cards-wrap" id="cardsWrap" aria-label="Leaderboard (mobile cards hidden)"></div>
       <div id="state" class="state" style="display:none;"></div>
     </section>
-    <section class="post-table-actions" aria-label="Contract and actions under leaderboard">
-      <div class="contract-row">
-        <div id="contractBox" class="contract-box" tabindex="0" role="button" aria-label="Contract address (focusable)" title="Contract address (select to copy)">
-          <span id="contractText"></span>
-          <button id="copyBtn" class="copy-btn" aria-label="Copy contract" title="Copy contract">
-            <img class="copy-svg" src="assets/copy.svg" alt="Copy" />
-          </button>
-        </div>
-        <div class="actions-stack">
-          <a id="chartBtn" class="btn btn-icon" target="_blank" rel="noopener noreferrer" aria-label="Open Dexscreener chart">
-            <img src="assets/dexscreener.svg" alt="Dexscreener" />
-            <span class="btn-label">Chart</span>
-          </a>
-          <a id="buyBtn" class="btn btn-icon" target="_blank" rel="noopener noreferrer" aria-label="Open Buy link">
-            <img src="assets/pumpfun.svg" alt="Pump.fun" />
-            <span class="btn-label">Buy</span>
-          </a>
-        </div>
-      </div>
-    </section>
+
   </main>
   <div class="bottom-region" role="complementary" aria-label="Project links and contract info" id="bottomRegion">
     <div class="bottom-wrap">
@@ -444,7 +445,7 @@
   <div id="faqOverlay" class="overlay" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="faqTitle">
       <div class="modal-header">
-        <h3 id="faqTitle" class="modal-title">FAQ</h3>
+        <h3 id="faqTitle" class="modal-title">Frequently Asked Questions</h3>
         <button id="closeFaqBtn" class="close-btn" aria-label="Close FAQ" title="Close">
           <span aria-hidden="true">✕</span>
         </button>
@@ -481,7 +482,7 @@
           </div>
           <div class="faq-item">
             <h4>What do I do?</h4>
-            <p>On each scene, you usually have two actions and two movements. They're chosen randomly from a pool. Choose wisely!</p>
+            <p>You can usually choose between two actions and two movements. They're chosen randomly from a pool. Choose wisely!</p>
           </div>
         </div>
       </div>
@@ -499,10 +500,10 @@
   const CONTRACT_ADDRESS = 'PLACEHOLDER';
   const DEXSCREENER_URL = 'https://dexscreener.com/solana/'+CONTRACT_ADDRESS;
   const BUY_URL = 'https://pump.fun/'+CONTRACT_ADDRESS;
-  const TWITTER_URL = 'https://twitter.com/PLACEHOLDER';
-  const DISCORD_URL = 'https://discord.gg/PLACEHOLDER';
-  const TELEGRAM_URL = 'https://t.me/DukesAndPeasants_bot';
-  const PLAY_URL = 'https://t.me/DukesAndPeasants_bot';
+  const TWITTER_URL = 'https://x.com/dukesnpeasants';
+  const DISCORD_URL = 'https://discord.com/invite/WKa5Fw2k62';
+  const TELEGRAM_URL = 'https://t.me/TheGatekeeping_bot';
+  const PLAY_URL = 'https://t.me/TheGatekeeping_bot';
   const tbody = document.getElementById('tbody');
   const cardsWrap = document.getElementById('cardsWrap');
   const stateEl = document.getElementById('state');
